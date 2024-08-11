@@ -62,9 +62,8 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note), MenuProvider {
             else{
                 val updatedNote = Note(currentNote.id, noteTitle, noteContent)
                 noteViewModel.updateNote(updatedNote)
-
-                Toast.makeText(view.context, "Note Updated Successfully!", Toast.LENGTH_SHORT).show()
                 view.findNavController().popBackStack(R.id.homeFragment, false)
+                Toast.makeText(view.context, "Note Updated Successfully!", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -77,8 +76,8 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note), MenuProvider {
             setPositiveButton("YES"){
                 _,_ ->
                 noteViewModel.deleteNote(currentNote)
-                Toast.makeText(context, "Note Deleted Successfully!", Toast.LENGTH_SHORT).show()
                 view?.findNavController()?.popBackStack(R.id.homeFragment, false)
+                Toast.makeText(context, "Note Deleted Successfully!", Toast.LENGTH_SHORT).show()
             }
             setNegativeButton("NO", null)
         }.create().show()
