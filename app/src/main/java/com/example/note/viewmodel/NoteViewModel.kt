@@ -7,8 +7,8 @@ import com.example.note.model.Note
 import com.example.note.repository.NoteRepository
 import kotlinx.coroutines.launch
 
-class NoteViewModel(app : Application, private val repo : NoteRepository) : AndroidViewModel(app) {
-    fun insertNote(note : Note) =
+class NoteViewModel (app : Application, private val repo : NoteRepository) : AndroidViewModel(app){
+    fun addNote(note: Note) =
         viewModelScope.launch {
             repo.insertNote(note)
         }
@@ -26,4 +26,5 @@ class NoteViewModel(app : Application, private val repo : NoteRepository) : Andr
     fun getAllNotes() = repo.getAllNotes()
 
     fun searchNote(query : String?) = repo.searchNote(query)
+
 }

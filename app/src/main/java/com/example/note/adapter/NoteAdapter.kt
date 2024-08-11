@@ -15,7 +15,7 @@ import com.example.note.model.Note
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(){
     inner class NoteViewHolder(val binding : ListNotesBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private val differCallback = object : DiffUtil.ItemCallback<Note>(){
+    private val differCallBack = object : DiffUtil.ItemCallback<Note>(){
         override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
             return oldItem.id == newItem.id &&
                     oldItem.noteTitle == newItem.noteTitle &&
@@ -25,12 +25,12 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(){
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
             return oldItem == newItem
         }
-    }
 
-    val differ = AsyncListDiffer(this, differCallback)
+    }
+    val differ = AsyncListDiffer(this, differCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder =
-        NoteViewHolder(ListNotesBinding.inflate(LayoutInflater.from(parent.context),parent, false))
+        NoteViewHolder(ListNotesBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun getItemCount(): Int = differ.currentList.size
 
@@ -49,5 +49,4 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(){
             it.findNavController().navigate(direction)
         }
     }
-
 }

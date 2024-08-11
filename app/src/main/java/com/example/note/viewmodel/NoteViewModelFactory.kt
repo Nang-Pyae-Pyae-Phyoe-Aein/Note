@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.note.repository.NoteRepository
 
 @Suppress("UNCHECKED_CAST")
-class NoteViewModelFactory(private val app : Application, private val repository: NoteRepository) : ViewModelProvider.Factory {
+class NoteViewModelFactory (private val app : Application, private val repo : NoteRepository) : ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return NoteViewModel(app, repository) as T
+        return NoteViewModel(app, repo) as T
     }
 }

@@ -3,8 +3,8 @@ package com.example.note.repository
 import com.example.note.database.NoteDatabase
 import com.example.note.model.Note
 
-class NoteRepository(private val db : NoteDatabase) {
-    suspend fun insertNote(note : Note) = db.getNoteDao().insertNote(note)
+class NoteRepository (private val db : NoteDatabase){
+    suspend fun insertNote(note: Note) = db.getNoteDao().insertNote(note)
 
     suspend fun updateNote(note : Note) = db.getNoteDao().updateNote(note)
 

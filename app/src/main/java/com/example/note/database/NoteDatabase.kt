@@ -3,7 +3,7 @@ package com.example.note.database
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.note.model.Note
+
 
 abstract class NoteDatabase : RoomDatabase(){
     //which declare the instance of NoteDao interface
@@ -14,7 +14,7 @@ abstract class NoteDatabase : RoomDatabase(){
         private var instance : NoteDatabase? = null
         private val LOCK = Any()
 
-        operator fun invoke(context: Context) = instance?:
+        operator fun  invoke(context: Context) = instance ?:
         synchronized(LOCK){
             instance ?:
             createDatabase(context).also {
