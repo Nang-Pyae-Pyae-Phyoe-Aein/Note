@@ -1,10 +1,12 @@
 package com.example.note.database
 
 import android.content.Context
+import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.note.model.Note
 
-
+@Database(entities = [Note::class], version = 1)
 abstract class NoteDatabase : RoomDatabase(){
     //which declare the instance of NoteDao interface
     abstract fun getNoteDao() : NoteDao
@@ -26,7 +28,7 @@ abstract class NoteDatabase : RoomDatabase(){
             Room.databaseBuilder(
                 context.applicationContext,
                 NoteDatabase::class.java,
-                "notes_db"
+                "note_db"
             ).build()
     }
 }

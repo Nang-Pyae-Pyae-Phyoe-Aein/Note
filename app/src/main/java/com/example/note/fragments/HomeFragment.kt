@@ -22,10 +22,11 @@ import com.example.note.model.Note
 import com.example.note.viewmodel.NoteViewModel
 
 class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextListener, MenuProvider{
+
     private var homeBinding : FragmentHomeBinding? = null
     private val binding get() = homeBinding!!
 
-    private lateinit var viewModel: NoteViewModel
+    private lateinit var noteViewModel : NoteViewModel
     private lateinit var noteAdapter: NoteAdapter
 
     override fun onCreateView(
@@ -43,7 +44,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         val menuHost : MenuHost = requireActivity()
         menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        viewModel = (activity as MainActivity).viewModel
+        noteViewModel = (activity as MainActivity).viewModel
         setUpRecyclerView()
 
         binding.fabAdd.setOnClickListener(){
@@ -51,44 +52,45 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         }
     }
 
-    private fun updateUI(noteList: List<Note>){
-        if(noteList!=null){
-            if(noteList.isEmpty()){
-                binding.mainRV.visibility = View.GONE
-            }else{
+    private fun updateUI(notes : List<Note>){
+        if(notes != null){
+            if(notes.isNotEmpty()){
+                binding.imageViewEmpty.visibility = View.GONE
                 binding.mainRV.visibility = View.VISIBLE
+            }
+            else{
+                binding.imageViewEmpty.visibility = View.VISIBLE
+                binding.mainRV.visibility = View.GONE
             }
         }
     }
 
     private fun setUpRecyclerView(){
-        val staggeredGridLayout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
         noteAdapter = NoteAdapter()
 
+        val staggeredLayout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
         binding.mainRV.apply {
-            layoutManager = staggeredGridLayout
-            setHasFixedSize(true)
+            layoutManager = staggeredLayout
             adapter = noteAdapter
+            setHasFixedSize(true)
         }
 
         activity?.let {
-            viewModel.getAllNotes().observe(viewLifecycleOwner){
+            noteViewModel.getAllNotes().observe(viewLifecycleOwner){
                 note ->
                 noteAdapter.differ.submitList(note)
                 updateUI(note)
             }
         }
-
     }
 
-    private fun searchNote(query: String?){
-        val searchQuery = "%$query"
+    private fun searchNote(query : String?){
+        val searchQuery ="%$query"
 
-        viewModel.searchNote(searchQuery).observe(this){
+        noteViewModel.searchNote(searchQuery).observe(this){
             note ->
             noteAdapter.differ.submitList(note)
-            updateUI(note)
         }
     }
 
@@ -107,9 +109,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         menu.clear()
         menuInflater.inflate(R.menu.search_menu, menu)
 
-        val search = menu.findItem(R.id.search).actionView as SearchView
-        search.isSubmitButtonEnabled = false
-        search.setOnQueryTextListener(this)
+        val searchMenu = menu.findItem(R.id.search).actionView as SearchView
+        searchMenu.isSubmitButtonEnabled = false
+        searchMenu.setOnQueryTextListener(this)
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
